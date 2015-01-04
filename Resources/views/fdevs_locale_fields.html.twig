@@ -1,0 +1,36 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block translatable_widget %}
+    {% spaceless %}
+        {% set type = form.vars.type|default('textarea') %}
+        {% if type == 'text' %}
+            {{ form_widget(form) }}
+        {% else %}
+            {{ block('locale_textarea') }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block locale_textarea %}
+    {% spaceless %}
+        {% set active = 'active' %}
+        <div {{ block('widget_container_attributes') }} class="tabbable">
+            <ul class="nav nav-tabs">
+                {% for child in form %}
+                    {{ form_widget(child.locale) }}
+                    <li class="{{ loop.first?'active':'' }}">
+                        <a href="#{{ child.vars.id ~ '_tab' }}"
+                           data-toggle="tab">{{ child.text.vars.label|trans({}, translation_domain) }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="tab-content">
+                {% for child in form %}
+                    <div class="tab-pane {{ loop.first?'active':'' }}" id="{{ child.vars.id ~ '_tab' }}">
+                        {{ form_widget(child.text) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
