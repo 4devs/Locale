@@ -58,7 +58,6 @@ class LocaleTextType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
-            ->setOptional(['lang_code'])
             ->setRequired(['lang_code'])
             ->setDefaults(['compound' => true, 'data_class' => 'FDevs\Locale\Model\LocaleText'])
             ->addAllowedTypes(['lang_code' => ['string', 'array']]);
