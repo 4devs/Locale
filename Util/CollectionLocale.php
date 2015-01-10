@@ -8,7 +8,10 @@ use FDevs\Locale\LocaleInterface;
 class CollectionLocale
 {
     /**
-     * @param Collection $collection
+     * add Locale to Collection
+     *
+     * @param Collection      $collection
+     * @param LocaleInterface $locale
      *
      * @return Collection
      */
