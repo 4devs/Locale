@@ -65,7 +65,7 @@ class TranslatableType extends AbstractType
                         'by_reference' => true,
                         'label_attr' => [],
                     ],
-                    'locales' => $this->locales
+                    'locales' => $this->locales,
                 ]
             )
             ->addAllowedValues(['type' => ['text', 'textarea']])

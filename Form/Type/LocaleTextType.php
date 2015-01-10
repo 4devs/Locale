@@ -69,7 +69,7 @@ class LocaleTextType extends AbstractType
      */
     public function getName()
     {
-        return 'fdevs_locale_' . $this->fieldType;
+        return 'fdevs_locale_'.$this->fieldType;
     }
 
     /**
