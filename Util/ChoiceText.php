@@ -24,18 +24,6 @@ class ChoiceText
     }
 
     /**
-     * get Locale
-     *
-     * @param string $locale
-     *
-     * @return string
-     */
-    public static function getLocale($locale = '')
-    {
-        return $locale ?: self::$defaultLocale;
-    }
-
-    /**
      * @param array|Collection $data
      * @param string           $locale
      *
@@ -44,7 +32,7 @@ class ChoiceText
     public static function getText($data, $locale = '')
     {
         $result = '';
-        $locale = self::getLocale($locale);
+        $locale = self::ensureLocale($locale);
         if ($data instanceof Collection) {
             $result = self::getTextByCollection($data, $locale);
         } elseif (is_array($data)) {
@@ -100,7 +88,7 @@ class ChoiceText
     public static function getTextByCollection(Collection $data, $locale = '')
     {
         $result = '';
-        $locale = self::getLocale($locale);
+        $locale = self::ensureLocale($locale);
         $text = $data->filter(
             function (LocaleTextInterface $var) use ($locale) {
                 return $var->isLocale($locale);
@@ -143,7 +131,7 @@ class ChoiceText
     public static function getTextByArray(array $data, $locale = '')
     {
         $result = '';
-        $locale = self::getLocale($locale);
+        $locale = self::ensureLocale($locale);
         $text = array_filter(
             $data,
             function (LocaleTextInterface $var) use ($locale) {
@@ -155,5 +143,17 @@ class ChoiceText
         }
 
         return $result;
+    }
+
+    /**
+     * get Locale
+     *
+     * @param string $locale
+     *
+     * @return string
+     */
+    protected static function ensureLocale($locale = '')
+    {
+        return $locale ?: self::$defaultLocale;
     }
 }

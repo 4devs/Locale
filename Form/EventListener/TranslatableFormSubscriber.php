@@ -10,10 +10,8 @@ use Symfony\Component\Form\FormInterface;
 
 class TranslatableFormSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var array
-     */
-    private $locations = [];
+    /** @var array */
+    private $locales = [];
 
     /**
      * init
@@ -59,13 +57,13 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
         }
         foreach ($data as $name => $value) {
             $locale = $value->getLocale();
-            if (isset($this->locations[$locale])) {
+            if (isset($this->locales[$locale])) {
                 $this->addForm($form, $name, $locale);
-                unset($this->locations[$locale]);
+                unset($this->locales[$locale]);
             }
         }
         $name = count($data);
-        foreach ($this->locations as $locale => $value) {
+        foreach ($this->locales as $locale => $value) {
             $this->addForm($form, $name, $locale);
             $name++;
         }
@@ -80,7 +78,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
      */
     public function setLocales(array $locales)
     {
-        $this->locations = array_flip($locales);
+        $this->locales = array_flip($locales);
 
         return $this;
     }
