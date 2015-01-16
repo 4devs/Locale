@@ -24,7 +24,7 @@ class LocaleText implements LocaleTextInterface
      * @param string $text
      * @param string $locale
      */
-    public function __construct($text = '', $locale = '')
+    public function __construct($text = '', $locale = 'en')
     {
         $this->text = $text;
         $this->setLocale($locale);
