@@ -7,17 +7,17 @@ use FDevs\Locale\Util\ChoiceText;
 
 class TranslatorExtension extends \Twig_Extension
 {
-    /** @var \FDevs\Locale\Util\ChoiceText */
-    private $choiceText;
+    /** @var array */
+    private $twigExtensions = [];
 
     /**
      * init
      *
-     * @param ChoiceText $choiceText
+     * @param array $twigExtensions
      */
-    public function __construct(ChoiceText $choiceText)
+    public function __construct(array $twigExtensions = [])
     {
-        $this->choiceText = $choiceText;
+        $this->twigExtensions = $twigExtensions;
     }
 
     /**
@@ -45,12 +45,15 @@ class TranslatorExtension extends \Twig_Extension
     public function trans(\Twig_Environment $env, $data, $locale = '')
     {
         if ($data instanceof Collection) {
-            $locale = $this->choiceText->getLocale($locale);
-            $result = $this->choiceText->getTextByCollection($data, $locale);
             $twig = new \Twig_Environment(new \Twig_Loader_String());
-            $twig->addExtension($env->getExtension('routing'));
+            foreach ($this->twigExtensions as $ext) {
+                if (!$ext instanceof \Twig_ExtensionInterface) {
+                    $ext = $env->getExtension($ext);
+                }
+                $twig->addExtension($ext);
+            }
 
-            return $twig->render($result);
+            $data = $twig->render(ChoiceText::getTextByCollection($data, $locale));
         }
 
         return $data;
