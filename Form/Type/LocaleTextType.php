@@ -45,10 +45,10 @@ class LocaleTextType extends AbstractType
         } else {
             $options['label'] = $intlBundle->getLanguageName($options['lang_code']);
             $localeData['data'] = $options['lang_code'];
+            $localeData['empty_data'] = $options['lang_code'];
             $builder->add('locale', 'hidden', $localeData);
         }
-        unset($options['lang_code']);
-
+        unset($options['lang_code'], $options['empty_data']);
         $builder->add('text', $this->fieldType, $options);
     }
 
@@ -68,7 +68,7 @@ class LocaleTextType extends AbstractType
      */
     public function getName()
     {
-        return 'fdevs_locale_'.$this->fieldType;
+        return 'fdevs_locale_' . $this->fieldType;
     }
 
     /**

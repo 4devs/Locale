@@ -62,6 +62,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
                 unset($this->locales[$locale]);
             }
         }
+
         $name = count($data);
         foreach ($this->locales as $locale => $value) {
             $this->addForm($form, $name, $locale);
@@ -94,8 +95,10 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     {
         $form->add(
             $name,
-            'fdevs_locale_'.$this->type,
-            array_replace(['label' => false, 'property_path' => '['.$name.']', 'lang_code' => $locale], $this->options)
+            'fdevs_locale_' . $this->type,
+            array_replace(
+                ['label' => false, 'property_path' => '[' . $name . ']', 'lang_code' => $locale],
+                $this->options)
         );
     }
 }
