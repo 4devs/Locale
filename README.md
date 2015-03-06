@@ -14,7 +14,7 @@ All the installation instructions are located in [documentation](https://github.
 License
 -------
 
-This bundle is under the MIT license. See the complete license in the Library:
+This library is under the MIT license. See the complete license in the Library:
 
     Resources/meta/LICENSE
 
