@@ -10,6 +10,7 @@ class TranslatorExtension extends \Twig_Extension
     /** @var array */
     private $twigExtensions = [];
 
+    /** @var string */
     private $defaultLocale = '';
 
     /**
