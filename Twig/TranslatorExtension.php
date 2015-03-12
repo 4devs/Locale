@@ -10,14 +10,19 @@ class TranslatorExtension extends \Twig_Extension
     /** @var array */
     private $twigExtensions = [];
 
+    /** @var string */
+    private $defaultLocale = '';
+
     /**
      * init
      *
-     * @param array $twigExtensions
+     * @param array  $twigExtensions
+     * @param string $defaultLocale
      */
-    public function __construct(array $twigExtensions = [])
+    public function __construct(array $twigExtensions = [], $defaultLocale = '')
     {
         $this->twigExtensions = $twigExtensions;
+        $this->defaultLocale = $defaultLocale;
     }
 
     /**
@@ -38,7 +43,7 @@ class TranslatorExtension extends \Twig_Extension
      * translate Collection
      *
      * @param |FDevs\Locale\Model\LocaleText[]|string $data
-     * @param string                                  $locale
+     * @param string $locale
      *
      * @return string
      */
@@ -53,7 +58,7 @@ class TranslatorExtension extends \Twig_Extension
                 $twig->addExtension($ext);
             }
 
-            $data = $twig->render(ChoiceText::getTextByCollection($data, $locale));
+            $data = $twig->render(ChoiceText::getTextByCollection($data, $locale ?: $this->getDefaultLocale()));
         }
 
         return $data;
@@ -65,5 +70,29 @@ class TranslatorExtension extends \Twig_Extension
     public function getName()
     {
         return 'translator_extension';
+    }
+
+    /**
+     * get Default Locale
+     *
+     * @return string
+     */
+    public function getDefaultLocale()
+    {
+        return $this->defaultLocale;
+    }
+
+    /**
+     * set Default Locale
+     *
+     * @param string $defaultLocale
+     *
+     * @return $this
+     */
+    public function setDefaultLocale($defaultLocale)
+    {
+        $this->defaultLocale = $defaultLocale;
+
+        return $this;
     }
 }
