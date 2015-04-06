@@ -64,13 +64,23 @@ class Translator implements TranslatorInterface
     /**
      * {@inheritDoc}
      */
-    public function transChoice($data, $locale = '')
+    public function transChoice($data, $locale = '', array $priorityLocale = [])
     {
         if ($locale) {
             $this->assertValidLocale($locale);
+        } else {
+            $locale = $this->locale;
         }
-        $locale = $locale ?: $this->locale;
-        $priorityLocale = isset($this->priorityLocaleList[$locale]) ? $this->priorityLocaleList[$locale] : [$locale];
+
+        if (count($priorityLocale)) {
+            $this->assertValidPriorityLocale($priorityLocale);
+            array_unshift($priorityLocale, $locale);
+        } elseif (isset($this->priorityLocaleList[$locale])) {
+            $priorityLocale = [$locale] + $this->priorityLocaleList[$locale];
+        } else {
+            $priorityLocale = [$locale];
+        }
+
         $result = ChoiceText::getTextByPriority($data, $priorityLocale);
 
         if (!$result && $this->returnFirst) {
@@ -105,7 +115,7 @@ class Translator implements TranslatorInterface
     public function addPriorityLocale($locale, array $priorityList)
     {
         $this->assertValidLocale($locale);
-        array_map([$this, 'assertValidLocale'], $priorityList);
+        $this->assertValidPriorityLocale($priorityList);
         $this->priorityLocaleList[$locale] = $priorityList;
 
         return $this;
@@ -139,5 +149,23 @@ class Translator implements TranslatorInterface
         }
 
         return $locale;
+    }
+
+    /**
+     * Asserts that the locale list is valid, throws an Exception if not.
+     *
+     * @param array $localeList Locale to tests
+     *
+     * @throws InvalidArgumentException If the locale contains invalid characters
+     *
+     * @return array
+     */
+    private function assertValidPriorityLocale(array $localeList)
+    {
+        foreach ($localeList as $locale) {
+            $this->assertValidLocale($locale);
+        }
+
+        return $localeList;
     }
 }

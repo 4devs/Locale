@@ -3,6 +3,8 @@
 namespace FDevs\Locale\Twig;
 
 use Doctrine\Common\Collections\Collection;
+use FDevs\Locale\Translator;
+use FDevs\Locale\TranslatorInterface;
 use FDevs\Locale\Util\ChoiceText;
 
 class TranslatorExtension extends \Twig_Extension
@@ -10,19 +12,20 @@ class TranslatorExtension extends \Twig_Extension
     /** @var array */
     private $twigExtensions = [];
 
-    /** @var string */
-    private $defaultLocale = '';
+    /** @var TranslatorInterface */
+    private $translator;
 
     /**
      * init
      *
-     * @param array  $twigExtensions
-     * @param string $defaultLocale
+     * @param array                    $twigExtensions
+     * @param string                   $defaultLocale
+     * @param TranslatorInterface|null $translator
      */
-    public function __construct(array $twigExtensions = [], $defaultLocale = '')
+    public function __construct(array $twigExtensions = [], $defaultLocale = '', TranslatorInterface $translator = null)
     {
         $this->twigExtensions = $twigExtensions;
-        $this->defaultLocale = $defaultLocale;
+        $this->translator = is_null($translator) ? new Translator($defaultLocale) : $translator;
     }
 
     /**
@@ -58,7 +61,7 @@ class TranslatorExtension extends \Twig_Extension
                 $twig->addExtension($ext);
             }
 
-            $data = $twig->render(ChoiceText::getTextByCollection($data, $locale ?: $this->getDefaultLocale()));
+            $data = $twig->render($this->translator->trans($data, $locale));
         }
 
         return $data;
@@ -76,10 +79,11 @@ class TranslatorExtension extends \Twig_Extension
      * get Default Locale
      *
      * @return string
+     * @deprecated
      */
     public function getDefaultLocale()
     {
-        return $this->defaultLocale;
+        return $this->translator->getLocale();
     }
 
     /**
@@ -88,10 +92,11 @@ class TranslatorExtension extends \Twig_Extension
      * @param string $defaultLocale
      *
      * @return $this
+     * @deprecated
      */
     public function setDefaultLocale($defaultLocale)
     {
-        $this->defaultLocale = $defaultLocale;
+        $this->translator->setLocale($defaultLocale);
 
         return $this;
     }

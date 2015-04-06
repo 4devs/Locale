@@ -8,6 +8,8 @@ use FDevs\Locale\Exception\InvalidArgumentException;
 interface TranslatorInterface
 {
     /**
+     * Translates the given Locale Data.
+     *
      * @param array|Collection $data
      * @param string           $locale
      *
@@ -18,14 +20,17 @@ interface TranslatorInterface
     public function trans($data, $locale = '');
 
     /**
+     * Translates the given Locale Data by choosing a translation according priority Locale.
+     *
      * @param array|Collection $data
      * @param string           $locale
+     * @param array            $priorityLocale
      *
      * @throws InvalidArgumentException If the locale contains invalid characters
      *
      * @return string
      */
-    public function transChoice($data, $locale = '');
+    public function transChoice($data, $locale = '', array $priorityLocale = []);
 
     /**
      * set default locale
