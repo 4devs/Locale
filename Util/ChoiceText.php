@@ -47,10 +47,11 @@ class ChoiceText
      *
      * @param array|Collection $data
      * @param array            $localeList
+     * @param bool             $returnFirst
      *
      * @return string
      */
-    public static function getTextByPriority($data, array $localeList)
+    public static function getTextByPriority($data, array $localeList, $returnFirst = true)
     {
         $result = '';
         if ($data instanceof Collection) {
@@ -61,9 +62,13 @@ class ChoiceText
             $callable = function ($data, $locale) {
                 return self::getTextByArray($data, $locale);
             };
-        } else {
+        } elseif ($returnFirst) {
             $callable = function ($data, $locale) {
                 return self::getFirstText($data);
+            };
+        } else {
+            $callable = function ($data, $locale) {
+                return '';
             };
         }
 
