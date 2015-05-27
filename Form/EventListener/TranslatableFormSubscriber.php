@@ -13,17 +13,23 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     /** @var array */
     private $locales = [];
 
+    /** @var array */
+    private $options = [];
+
+    /** @var string */
+    private $localeFormType;
+
     /**
      * init
      *
-     * @param string $type
      * @param array  $options
      * @param array  $locations
+     * @param string $localeFormType
      */
-    public function __construct($type, array $options, array $locations)
+    public function __construct($localeFormType = 'fdevs_locale', array $options = [], array $locations = [])
     {
-        $this->type = $type;
         $this->options = $options;
+        $this->localeFormType = $localeFormType;
         $this->setLocales($locations);
     }
 
@@ -93,12 +99,12 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
      */
     private function addForm(FormInterface $form, $name, $locale)
     {
-        $form->add(
-            $name,
-            'fdevs_locale_' . $this->type,
-            array_replace(
-                ['label' => false, 'property_path' => '[' . $name . ']', 'lang_code' => $locale],
-                $this->options)
-        );
+        $options = array_replace([
+            'label'         => false,
+            'property_path' => '['.$name.']',
+            'lang_code'     => $locale
+        ], $this->options);
+
+        $form->add($name, $this->localeFormType, $options);
     }
 }
