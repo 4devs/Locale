@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TranslatableType extends AbstractType
@@ -29,9 +30,7 @@ class TranslatableType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $type = $options['type'];
-        $localeOptions = $this->prepareOptions($options['options'], $options);
-        $resizeListener = new TranslatableFormSubscriber($type, $localeOptions, $options['locales']);
+        $resizeListener = new TranslatableFormSubscriber($options['type'], $options['options'], $options['locales']);
 
         $builder->addEventSubscriber($resizeListener);
     }
@@ -39,10 +38,9 @@ class TranslatableType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        parent::finishView($view, $form, $options);
-        $view->vars['type'] = $options['type'];
+        $view->vars['block_locale'] = $options['block_locale'];
     }
 
     /**
@@ -54,23 +52,22 @@ class TranslatableType extends AbstractType
             ->setRequired(['type'])
             ->setDefaults(
                 [
-                    'type' => 'text',
-                    'options' => [
-                        'trim' => true,
-                        'required' => true,
-                        'read_only' => false,
-                        'max_length' => null,
-                        'pattern' => null,
-                        'mapped' => true,
-                        'by_reference' => true,
-                        'label_attr' => [],
-                    ],
-                    'locales' => $this->locales,
+                    'type'         => 'text',
+                    'options'      => [],
+                    'block_locale' => 'inline',
+                    'locales'      => $this->locales,
                 ]
             )
-            ->addAllowedValues(['type' => ['text', 'textarea']])
-            ->setOptional(['locales'])
-            ->addAllowedTypes(['locales' => 'array']);
+            ->setOptional(['locales', 'options', 'block_locale'])
+            ->addAllowedTypes([
+                'locales'      => 'array',
+                'options'      => 'array',
+                'type'         => ['string', '\Symfony\Component\Form\FormTypeInterface'],
+                'block_locale' => ['string'],
+            ])
+            ->setNormalizers(['block_locale' => function ($options, $value) {
+                return 'fdevs_locale_'.$value;
+            }]);
     }
 
     /**
@@ -85,15 +82,5 @@ class TranslatableType extends AbstractType
         $this->locales = $locales;
 
         return $this;
-    }
-
-    private function prepareOptions($options, $replace)
-    {
-        $data = [];
-        foreach ($options as $key => $value) {
-            $data[$key] = empty($replace[$key]) ? $value : $replace[$key];
-        }
-
-        return $data;
     }
 }
