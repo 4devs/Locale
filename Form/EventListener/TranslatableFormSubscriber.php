@@ -13,6 +13,9 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     /** @var array */
     private $locales = [];
 
+    /** @var array */
+    private $options = [];
+
     /**
      * init
      *
@@ -95,9 +98,9 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     {
         $form->add(
             $name,
-            'fdevs_locale_' . $this->type,
+            'fdevs_locale',
             array_replace(
-                ['label' => false, 'property_path' => '[' . $name . ']', 'lang_code' => $locale],
+                ['label' => false, 'property_path' => '['.$name.']', 'lang_code' => $locale, 'type' => $this->type],
                 $this->options)
         );
     }
