@@ -24,22 +24,16 @@ class ChoiceText
     }
 
     /**
-     * @param array|Collection $data
-     * @param string           $locale
+     * @param array|Collection|LocaleTextInterface[] $data
+     * @param string                                 $locale
      *
      * @return string
      */
     public static function getText($data, $locale = '')
     {
-        $result = '';
-        $locale = self::ensureLocale($locale);
-        if ($data instanceof Collection) {
-            $result = self::getTextByCollection($data, $locale);
-        } elseif (is_array($data)) {
-            $result = self::getTextByArray($data, $locale);
-        }
+        $result = ChoiceLocale::get($data, self::ensureLocale($locale));
 
-        return $result;
+        return self::prepareResult($result);
     }
 
     /**
@@ -53,33 +47,9 @@ class ChoiceText
      */
     public static function getTextByPriority($data, array $localeList, $returnFirst = true)
     {
-        $result = '';
-        if ($data instanceof Collection) {
-            $callable = function ($data, $locale) {
-                return self::getTextByCollection($data, $locale);
-            };
-        } elseif (is_array($data)) {
-            $callable = function ($data, $locale) {
-                return self::getTextByArray($data, $locale);
-            };
-        } elseif ($returnFirst) {
-            $callable = function ($data, $locale) {
-                return self::getFirstText($data);
-            };
-        } else {
-            $callable = function ($data, $locale) {
-                return '';
-            };
-        }
+        $result = ChoiceLocale::getByPriority($data, $localeList, $returnFirst);
 
-        foreach ($localeList as $locale) {
-            $result = $callable($data, $locale);
-            if ($result) {
-                break;
-            }
-        }
-
-        return $result;
+        return self::prepareResult($result);
     }
 
     /**
@@ -92,18 +62,10 @@ class ChoiceText
      */
     public static function getTextByCollection(Collection $data, $locale = '')
     {
-        $result = '';
         $locale = self::ensureLocale($locale);
-        $text = $data->filter(
-            function (LocaleTextInterface $var) use ($locale) {
-                return $var->isLocale($locale);
-            }
-        );
-        if (count($text)) {
-            $result = self::getFirstText($text);
-        }
+        $result = ChoiceLocale::getByCollection($data, $locale);
 
-        return $result;
+        return self::prepareResult($result);
     }
 
     /**
@@ -115,14 +77,9 @@ class ChoiceText
      */
     public static function getFirstText($data)
     {
-        $locale = ['text' => ''];
-        if ($data instanceof Collection) {
-            $locale = $data->first();
-        } elseif (is_array($data)) {
-            $locale = reset($data);
-        }
+        $result = ChoiceLocale::getFirst($data);
 
-        return $locale instanceof LocaleText ? $locale->getText() : (is_array($locale) ? $locale['text'] : '');
+        return self::prepareResult($result);
     }
 
     /**
@@ -135,19 +92,9 @@ class ChoiceText
      */
     public static function getTextByArray(array $data, $locale = '')
     {
-        $result = '';
-        $locale = self::ensureLocale($locale);
-        $text = array_filter(
-            $data,
-            function (LocaleTextInterface $var) use ($locale) {
-                return $var->isLocale($locale);
-            }
-        );
-        if (count($text)) {
-            $result = self::getFirstText($text);
-        }
+        $result = ChoiceLocale::getByArray($data, self::ensureLocale($locale));
 
-        return $result;
+        return self::prepareResult($result);
     }
 
     /**
@@ -160,5 +107,17 @@ class ChoiceText
     protected static function ensureLocale($locale = '')
     {
         return $locale ?: self::$defaultLocale;
+    }
+
+    /**
+     * prepare result
+     *
+     * @param LocaleTextInterface|null $result
+     *
+     * @return string
+     */
+    protected static function prepareResult(LocaleTextInterface $result = null)
+    {
+        return $result instanceof LocaleTextInterface ? $result->getText() : '';
     }
 }
