@@ -2,7 +2,6 @@
 
 namespace FDevs\Locale;
 
-
 interface LocaleInterface
 {
     /**

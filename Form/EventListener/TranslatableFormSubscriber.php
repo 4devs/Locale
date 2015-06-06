@@ -102,7 +102,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
         $options = array_replace([
             'label'         => false,
             'property_path' => '['.$name.']',
-            'lang_code'     => $locale
+            'lang_code'     => $locale,
         ], $this->options);
 
         $form->add($name, $this->localeFormType, $options);

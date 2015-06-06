@@ -3,7 +3,7 @@
 namespace FDevs\Locale\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TransTextareaType extends AbstractType
 {
@@ -26,15 +26,13 @@ class TransTextareaType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(
-                [
-                    'type'         => 'textarea',
-                    'block_locale' => 'text_tabs',
-                    'locale_type'  => 'fdevs_locale_text',
-                ]
-            );
+            ->setDefaults([
+                'options'      => ['type' => 'textarea'],
+                'block_locale' => 'text_tabs',
+                'locale_type'  => 'fdevs_locale_text',
+            ]);
     }
 }

@@ -4,7 +4,6 @@ namespace FDevs\Locale\Util;
 
 use Doctrine\Common\Collections\Collection;
 use FDevs\Locale\LocaleTextInterface;
-use FDevs\Locale\Model\LocaleText;
 
 class ChoiceText
 {

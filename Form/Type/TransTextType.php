@@ -3,7 +3,7 @@
 namespace FDevs\Locale\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TransTextType extends AbstractType
 {
@@ -26,14 +26,8 @@ class TransTextType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefaults(
-                [
-                    'type'        => 'text',
-                    'locale_type' => 'fdevs_locale_text',
-                ]
-            );
+        $resolver->setDefaults(['locale_type' => 'fdevs_locale_text']);
     }
 }

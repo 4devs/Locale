@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TransType extends AbstractType
 {
@@ -43,37 +43,26 @@ class TransType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
             ->setRequired(['locale_type'])
             ->setDefaults(
                 [
-                    'type'         => 'text',
                     'locale_type'  => 'fdevs_locale',
                     'options'      => [],
                     'block_locale' => 'inline',
                     'locales'      => $this->locales,
                 ]
             )
-            ->setOptional(['locales', 'options', 'block_locale', 'type'])
-            ->addAllowedTypes([
-                'locales'      => 'array',
-                'options'      => 'array',
-                'type'         => ['string', '\Symfony\Component\Form\FormTypeInterface'],
-                'locale_type'  => ['string'],
-                'block_locale' => ['string'],
-            ])
-            ->setNormalizers([
-                'block_locale' => function ($options, $value) {
-                    return 'fdevs_locale_'.$value;
-                },
-                'options'      => function ($options, $value) {
-                    $value['type'] = empty($value['type']) ? $options['type'] : $value['type'];
-
-                    return $value;
-                }
-            ]);
+            ->setDefined(['locales', 'options', 'block_locale'])
+            ->addAllowedTypes('locales', 'array')
+            ->addAllowedTypes('options', 'array')
+            ->addAllowedTypes('locale_type', ['string', '\Symfony\Component\Form\FormTypeInterface'])
+            ->addAllowedTypes('block_locale', ['string'])
+            ->setNormalizer('block_locale', function ($options, $value) {
+                return 'fdevs_locale_'.$value;
+            });
     }
 
     /**

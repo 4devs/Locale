@@ -37,19 +37,20 @@ class ChoiceLocale
         });
 
         return self::getFirst($locale);
-
     }
 
     /**
+     * get by priority
+     *
      * @param array|Collection|LocaleInterface[] $data
      * @param array                              $localeList
-     * @param bool                               $returnFirst
      *
      * @return LocaleInterface|null
      */
-    public static function getByPriority($data, array $localeList, $returnFirst = true)
+    public static function getByPriority($data, array $localeList)
     {
         $result = null;
+        $callable = null;
         if ($data instanceof Collection) {
             $callable = function ($data, $locale) {
                 return self::getByCollection($data, $locale);
@@ -58,25 +59,18 @@ class ChoiceLocale
             $callable = function ($data, $locale) {
                 return self::getByArray($data, $locale);
             };
-        } elseif ($returnFirst) {
-            $callable = function ($data, $locale) {
-                return self::getFirst($data);
-            };
-        } else {
-            $callable = function ($data, $locale) {
-                return '';
-            };
         }
 
-        foreach ($localeList as $locale) {
-            $result = $callable($data, $locale);
-            if ($result) {
-                break;
+        if ($callable) {
+            foreach ($localeList as $locale) {
+                $result = $callable($data, $locale);
+                if ($result) {
+                    break;
+                }
             }
         }
 
         return $result;
-
     }
 
     /**

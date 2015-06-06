@@ -3,7 +3,7 @@ namespace FDevs\Locale\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LocaleTextType extends AbstractType
 {
@@ -18,12 +18,12 @@ class LocaleTextType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => 'FDevs\Locale\Model\LocaleText',
-            'type'       => 'text',
-        ]);
+        $resolver
+            ->setDefined(['type'])
+            ->addAllowedTypes('type', ['string', '\Symfony\Component\Form\FormTypeInterface'])
+            ->setDefaults(['data_class' => 'FDevs\Locale\Model\LocaleText', 'type' => 'text']);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace FDevs\Locale\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Intl\Intl;
 
 class LocaleType extends AbstractType
@@ -29,10 +29,10 @@ class LocaleType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setRequired(['lang_code', 'type'])
+            ->setRequired(['lang_code'])
             ->setDefaults([
                 'compound' => true,
                 'options'  => [
@@ -45,20 +45,17 @@ class LocaleType extends AbstractType
                     'mapped'       => true,
                     'by_reference' => true,
                     'trim'         => true,
-                ]
+                ],
             ])
-            ->addAllowedTypes([
-                'lang_code' => ['string', 'array'],
-                'options'   => ['array'],
-                'type'      => ['string', '\Symfony\Component\Form\FormTypeInterface']
-            ])
-            ->setNormalizers(['options' => function ($options, $value) {
+            ->addAllowedTypes('lang_code', ['string', 'array'])
+            ->addAllowedTypes('options', ['array'])
+            ->setNormalizer('options', function ($options, $value) {
                 if (is_string($options['lang_code']) && !$value['label']) {
                     $value['label'] = Intl::getLanguageBundle()->getLanguageName($options['lang_code']);
                 }
 
                 return $value;
-            }]);
+            });
     }
 
     /**
