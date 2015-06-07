@@ -49,13 +49,7 @@ class LocaleType extends AbstractType
             ])
             ->addAllowedTypes('lang_code', ['string', 'array'])
             ->addAllowedTypes('options', ['array'])
-            ->setNormalizer('options', function ($options, $value) {
-                if (is_string($options['lang_code']) && !$value['label']) {
-                    $value['label'] = Intl::getLanguageBundle()->getLanguageName($options['lang_code']);
-                }
-
-                return $value;
-            });
+        ;
     }
 
     /**

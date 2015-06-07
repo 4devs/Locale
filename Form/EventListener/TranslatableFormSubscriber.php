@@ -7,6 +7,7 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Intl\Intl;
 
 class TranslatableFormSubscriber implements EventSubscriberInterface
 {
@@ -100,7 +101,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     private function addForm(FormInterface $form, $name, $locale)
     {
         $options = array_replace([
-            'label'         => false,
+            'label'         => Intl::getLanguageBundle()->getLanguageName($locale),
             'property_path' => '['.$name.']',
             'lang_code'     => $locale,
         ], $this->options);

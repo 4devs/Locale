@@ -21,7 +21,7 @@
                 {{ form_widget(child.locale) }}
                 <li class="{{ loop.first?'active':'' }}">
                     <a href="#{{ child.vars.id ~ '_tab' }}" data-toggle="tab">
-                        {{ child.text.vars.label|trans({}, translation_domain) }}
+                        {{ child.vars.label|trans({}, translation_domain) }}
                     </a>
                 </li>
             {% endfor %}
