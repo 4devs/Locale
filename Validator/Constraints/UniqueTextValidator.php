@@ -41,7 +41,7 @@ class UniqueTextValidator extends ConstraintValidator
                 throw new UnexpectedTypeException($locale, 'FDevs\Locale\LocaleTextInterface');
             }
 
-            $data = $manager->getRepository($class)->findOneBy([$field . '.locale' => $locale->getLocale(), $field . '.text' => $locale->getText()]);
+            $data = $manager->getRepository($class)->findOneBy([$field.'.locale' => $locale->getLocale(), $field.'.text' => $locale->getText()]);
             if ($data) {
                 $this->context
                     ->buildViolation($constraint->message)
@@ -51,5 +51,4 @@ class UniqueTextValidator extends ConstraintValidator
             }
         }
     }
-
 }

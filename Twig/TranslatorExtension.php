@@ -3,9 +3,9 @@
 namespace FDevs\Locale\Twig;
 
 use Doctrine\Common\Collections\Collection;
+use FDevs\Locale\Model\LocaleText;
 use FDevs\Locale\Translator;
 use FDevs\Locale\TranslatorInterface;
-use FDevs\Locale\Util\ChoiceText;
 
 class TranslatorExtension extends \Twig_Extension
 {
@@ -15,17 +15,19 @@ class TranslatorExtension extends \Twig_Extension
     /** @var TranslatorInterface */
     private $translator;
 
+    /** @var \Twig_Environment */
+    private $environment;
+
     /**
      * init
      *
-     * @param array                    $twigExtensions
-     * @param string                   $defaultLocale
-     * @param TranslatorInterface|null $translator
+     * @param array               $twigExtensions
+     * @param TranslatorInterface $translator
      */
-    public function __construct(array $twigExtensions = [], $defaultLocale = '', TranslatorInterface $translator = null)
+    public function __construct(array $twigExtensions = [], TranslatorInterface $translator)
     {
         $this->twigExtensions = $twigExtensions;
-        $this->translator = is_null($translator) ? new Translator($defaultLocale) : $translator;
+        $this->translator = $translator;
     }
 
     /**
@@ -34,11 +36,7 @@ class TranslatorExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter(
-                't',
-                [$this, 'trans'],
-                ['is_safe' => ['html'], 'needs_environment' => true]
-            ),
+            new \Twig_SimpleFilter('t', [$this, 'trans'], ['is_safe' => ['html'], 'needs_environment' => true]),
         ];
     }
 
@@ -46,22 +44,18 @@ class TranslatorExtension extends \Twig_Extension
      * translate Collection
      *
      * @param |FDevs\Locale\Model\LocaleText[]|string $data
-     * @param string $locale
+     * @param string                                  $locale
      *
      * @return string
      */
     public function trans(\Twig_Environment $env, $data, $locale = '')
     {
-        if ($data instanceof Collection) {
-            $twig = new \Twig_Environment(new \Twig_Loader_String());
-            foreach ($this->twigExtensions as $ext) {
-                if (!$ext instanceof \Twig_ExtensionInterface) {
-                    $ext = $env->getExtension($ext);
-                }
-                $twig->addExtension($ext);
+        if ($data instanceof Collection || is_array($data)) {
+            $text = $this->translator->trans($data, $locale);
+            $data = '';
+            if ($text instanceof LocaleText && $text->getText()) {
+                $data = $this->createTemplate($text->getText(), $env)->render([]);
             }
-
-            $data = $twig->render($this->translator->trans($data, $locale));
         }
 
         return $data;
@@ -76,28 +70,25 @@ class TranslatorExtension extends \Twig_Extension
     }
 
     /**
-     * get Default Locale
+     * create template
      *
-     * @return string
-     * @deprecated
+     * @param string            $text
+     * @param \Twig_Environment $env
+     *
+     * @return \Twig_Template
      */
-    public function getDefaultLocale()
+    private function createTemplate($text, \Twig_Environment $env)
     {
-        return $this->translator->getLocale();
-    }
+        if (!$this->environment) {
+            $this->environment = new \Twig_Environment($env->getLoader());
+            foreach ($this->twigExtensions as $ext) {
+                if (!$ext instanceof \Twig_ExtensionInterface) {
+                    $ext = $env->getExtension($ext);
+                }
+                $this->environment->addExtension($ext);
+            }
+        }
 
-    /**
-     * set Default Locale
-     *
-     * @param string $defaultLocale
-     *
-     * @return $this
-     * @deprecated
-     */
-    public function setDefaultLocale($defaultLocale)
-    {
-        $this->translator->setLocale($defaultLocale);
-
-        return $this;
+        return $this->environment->createTemplate($text);
     }
 }
