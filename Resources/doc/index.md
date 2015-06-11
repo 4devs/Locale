@@ -6,7 +6,8 @@ Getting Started With Locale Library
 Installation and usage is a quick:
 
 1. Download Locale using composer
-2. Use the bundle
+2. Use the library
+3. Use Mongodb with Symfony [Translation](https://github.com/symfony/Translation)
 
 
 ### Step 1: Download Locale library using composer
@@ -85,4 +86,44 @@ Here you can treat this as locales fallback, first found locale from your list w
 ```php
 echo $choice->getTextByPriority($supportedTexts, ['en', 'zh', 'ru']);
 // Output: "I am programmer"
+```
+
+### Step 3: Use Mongodb with Symfony Translation
+
+
+#### add resource
+
+```php
+use Symfony\Component\Translation\Translator;
+use FDevs\Locale\Translation\Loader\MongodbLoader;
+
+$translator = new Translator('fr_FR');
+$translator->addLoader('mongodb', new MongodbLoader());
+
+$mongoBD = new \MongoDB();
+$collection = 'fdevs_translation';
+
+$translator->addResource('mongodb', $mongoBD, 'ru', $collection);
+$translator->addResource('mongodb', $mongoBD, 'en', $collection);
+
+echo $translator->trans('welcome');
+```
+
+#### in mongodb
+
+```json
+/* 0 */
+{
+    "_id" : "symfony",
+    "trans" : [ 
+        {
+            "text" : "Symfony is great",
+            "locale" : "en"
+        }, 
+        {
+            "text" : "Symfony это здорово",
+            "locale" : "ru"
+        }
+    ]
+}
 ```
