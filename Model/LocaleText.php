@@ -5,7 +5,7 @@ namespace FDevs\Locale\Model;
 use FDevs\Locale\LocaleTextInterface;
 use FDevs\Locale\LocaleTrait;
 
-class LocaleText implements LocaleTextInterface
+class LocaleText implements LocaleTextInterface, \Serializable
 {
     use LocaleTrait;
     /**
@@ -84,4 +84,29 @@ class LocaleText implements LocaleTextInterface
     {
         return $this->text;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function serialize()
+    {
+        return serialize([
+            'locale' => $this->getLocale(),
+            'text'   => $this->getText(),
+        ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->setLocale($data['locale']);
+        $this->setText($data['text']);
+
+
+        return $this;
+    }
+
 }
