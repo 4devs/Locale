@@ -37,6 +37,7 @@ class TranslatorExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFilter('t', [$this, 'trans'], ['is_safe' => ['html'], 'needs_environment' => true]),
+            new \Twig_SimpleFilter('tc', [$this, 'translationCollection'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -56,6 +57,21 @@ class TranslatorExtension extends \Twig_Extension
             if ($text instanceof LocaleText && $text->getText()) {
                 $data = $this->createTemplate($text->getText(), $env)->render([]);
             }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param \FDevs\Locale\LocaleInterface|string $data
+     * @param string                               $locale
+     *
+     * @return \FDevs\Locale\LocaleInterface|null
+     */
+    public function translationCollection($data, $locale = '')
+    {
+        if ($data instanceof Collection || is_array($data)) {
+            $data = $this->translator->trans($data, $locale);
         }
 
         return $data;
