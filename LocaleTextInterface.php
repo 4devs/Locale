@@ -1,10 +1,11 @@
 <?php
+
 namespace FDevs\Locale;
 
 interface LocaleTextInterface extends LocaleInterface
 {
     /**
-     * get Text
+     * get Text.
      *
      * @return string
      */

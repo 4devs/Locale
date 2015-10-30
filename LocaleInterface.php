@@ -5,23 +5,23 @@ namespace FDevs\Locale;
 interface LocaleInterface
 {
     /**
-     * is Locale
+     * is Locale.
      *
      * @param string $locale
      *
-     * @return boolean
+     * @return bool
      */
     public function isLocale($locale);
 
     /**
-     * get Locale
+     * get Locale.
      *
      * @return string
      */
     public function getLocale();
 
     /**
-     * set Locale
+     * set Locale.
      *
      * @param string $locale
      *

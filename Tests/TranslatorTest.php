@@ -4,9 +4,8 @@ namespace FDevs\Locale\Tests;
 
 class TranslatorTest extends AbstractTest
 {
-
     /**
-     * test locale
+     * test locale.
      */
     public function testLocale()
     {
@@ -20,11 +19,10 @@ class TranslatorTest extends AbstractTest
         $trans = $this->createTranslation();
         $this->setExpectedException('FDevs\Locale\Exception\InvalidLocaleException');
         $trans->setLocale('uk net');
-
     }
 
     /**
-     * test trans
+     * test trans.
      */
     public function testTrans()
     {
@@ -41,7 +39,6 @@ class TranslatorTest extends AbstractTest
         $text = $trans->trans($data);
         $this->assertLocale($text, 'ru');
 
-
         $trans = $this->createTranslation()->setLocale('ru');
         $text = $trans->trans($data, 'en');
         $this->assertLocale($text, 'en');
@@ -55,7 +52,7 @@ class TranslatorTest extends AbstractTest
     }
 
     /**
-     * test trans choice
+     * test trans choice.
      */
     public function testTransChoice()
     {
@@ -90,7 +87,6 @@ class TranslatorTest extends AbstractTest
         $text = $trans->transChoice($data, '', ['ru', 'uk']);
         $this->assertLocale($text, 'ru');
 
-
         $trans = $this->createTranslation('en', [
             $this->createPriorityLocaleMock('ru', ['ru', 'en']),
             $this->createPriorityLocaleMock('uk', ['uk', 'ru']),
@@ -103,7 +99,6 @@ class TranslatorTest extends AbstractTest
         $this->assertLocale($text, 'en');
         $text = $trans->transChoice($data, '', ['ru']);
         $this->assertLocale($text, 'ru');
-
 
         $this->setExpectedException('FDevs\Locale\Exception\InvalidLocaleException');
         $this->createTranslation()->transChoice($data, 'uk net');

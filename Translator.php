@@ -19,7 +19,7 @@ class Translator implements TranslatorInterface
     private $priorityLocaleList = [];
 
     /**
-     * init
+     * init.
      *
      * @param string                 $defaultLocale
      * @param array|PriorityLocale[] $priorityLocale
@@ -33,7 +33,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function trans($data, $locale = '')
     {
@@ -43,7 +43,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function transChoice($data, $locale = '', array $priorityLocale = [])
     {
@@ -57,7 +57,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLocale()
     {
@@ -65,7 +65,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * get priority locale
+     * get priority locale.
      *
      * @param string $locale
      *
@@ -84,11 +84,12 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * add priority locale list
+     * add priority locale list.
      *
      * @param PriorityLocale $priorityLocale
      *
      * @return $this
+     *
      * @throws InvalidLocaleException
      */
     public function addPriorityLocale(PriorityLocale $priorityLocale)
@@ -99,7 +100,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * create Priority Locale
+     * create Priority Locale.
      *
      * @param string $locale
      * @param array  $localeList
@@ -115,7 +116,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setLocale($locale)
     {
@@ -125,11 +126,12 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * asset valid locale
+     * asset valid locale.
      *
      * @param string $locale
      *
      * @return string
+     *
      * @throws InvalidLocaleException
      */
     public static function assertValidLocale($locale)

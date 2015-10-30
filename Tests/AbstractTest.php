@@ -8,7 +8,6 @@ use FDevs\Locale\Model\PriorityLocale;
 
 abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @param string $defaultLocale
      * @param array  $priorityLocale
@@ -84,7 +83,6 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf())
         ;
 
-
         $model
             ->method('getLocale')
             ->willReturn($locale)
@@ -92,5 +90,4 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 
         return $model;
     }
-
 }

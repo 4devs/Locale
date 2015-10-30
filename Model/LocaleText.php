@@ -19,7 +19,7 @@ class LocaleText implements LocaleTextInterface, \Serializable
     protected $text;
 
     /**
-     * init
+     * init.
      *
      * @param string $text
      * @param string $locale
@@ -31,7 +31,7 @@ class LocaleText implements LocaleTextInterface, \Serializable
     }
 
     /**
-     * to Array
+     * to Array.
      *
      * @return array
      */
@@ -41,7 +41,7 @@ class LocaleText implements LocaleTextInterface, \Serializable
     }
 
     /**
-     * from Array
+     * from Array.
      *
      * @param array $array
      *
@@ -86,18 +86,18 @@ class LocaleText implements LocaleTextInterface, \Serializable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function serialize()
     {
         return serialize([
             'locale' => $this->getLocale(),
-            'text'   => $this->getText(),
+            'text' => $this->getText(),
         ]);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function unserialize($serialized)
     {

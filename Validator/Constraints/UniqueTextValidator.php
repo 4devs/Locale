@@ -15,7 +15,7 @@ class UniqueTextValidator extends ConstraintValidator
     private $registry;
 
     /**
-     * init
+     * init.
      *
      * @param ManagerRegistry $registry
      */
@@ -25,7 +25,7 @@ class UniqueTextValidator extends ConstraintValidator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function validate($value, Constraint $constraint)
     {
