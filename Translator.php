@@ -21,8 +21,8 @@ class Translator implements TranslatorInterface
     /**
      * init
      *
-     * @param string $defaultLocale
-     * @param array  $priorityLocale
+     * @param string                 $defaultLocale
+     * @param array|PriorityLocale[] $priorityLocale
      */
     public function __construct($defaultLocale = 'en', $priorityLocale = [])
     {
@@ -47,12 +47,13 @@ class Translator implements TranslatorInterface
      */
     public function transChoice($data, $locale = '', array $priorityLocale = [])
     {
+        $locale = $locale ? $this->assertValidLocale($locale) : '';
         $priorityLocale = count($priorityLocale) ? $this->assertValidPriorityLocale($priorityLocale) : $this->getPriorityLocale($locale);
         if ($locale) {
             array_unshift($priorityLocale, $locale);
         }
 
-        return ChoiceLocale::getByPriority($data, $priorityLocale);
+        return ChoiceLocale::getByPriority($data, array_unique($priorityLocale));
     }
 
     /**
