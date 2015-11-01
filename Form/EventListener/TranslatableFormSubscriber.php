@@ -21,7 +21,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     private $localeFormType;
 
     /**
-     * init
+     * init.
      *
      * @param array  $options
      * @param array  $locations
@@ -35,7 +35,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -43,7 +43,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function preSetData(FormEvent $event)
     {
@@ -73,12 +73,12 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
         $name = count($data);
         foreach ($this->locales as $locale => $value) {
             $this->addForm($form, $name, $locale);
-            $name++;
+            ++$name;
         }
     }
 
     /**
-     * set Locales
+     * set Locales.
      *
      * @param array $locales
      *
@@ -92,7 +92,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * add Element Form
+     * add Element Form.
      *
      * @param FormInterface $form
      * @param string        $name
@@ -101,9 +101,9 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
     private function addForm(FormInterface $form, $name, $locale)
     {
         $options = array_replace([
-            'label'         => Intl::getLanguageBundle()->getLanguageName($locale),
+            'label' => Intl::getLanguageBundle()->getLanguageName($locale),
             'property_path' => '['.$name.']',
-            'lang_code'     => $locale,
+            'lang_code' => $locale,
         ], $this->options);
 
         $form->add($name, $this->localeFormType, $options);

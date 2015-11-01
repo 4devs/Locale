@@ -13,7 +13,7 @@ class DuplicateLocaleValidator extends ConstraintValidator
     private $locale = [];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function validate($value, Constraint $constraint)
     {

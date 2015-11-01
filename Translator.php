@@ -19,10 +19,10 @@ class Translator implements TranslatorInterface
     private $priorityLocaleList = [];
 
     /**
-     * init
+     * init.
      *
-     * @param string $defaultLocale
-     * @param array  $priorityLocale
+     * @param string                 $defaultLocale
+     * @param array|PriorityLocale[] $priorityLocale
      */
     public function __construct($defaultLocale = 'en', $priorityLocale = [])
     {
@@ -33,7 +33,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function trans($data, $locale = '')
     {
@@ -43,20 +43,21 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function transChoice($data, $locale = '', array $priorityLocale = [])
     {
+        $locale = $locale ? $this->assertValidLocale($locale) : '';
         $priorityLocale = count($priorityLocale) ? $this->assertValidPriorityLocale($priorityLocale) : $this->getPriorityLocale($locale);
         if ($locale) {
             array_unshift($priorityLocale, $locale);
         }
 
-        return ChoiceLocale::getByPriority($data, $priorityLocale);
+        return ChoiceLocale::getByPriority($data, array_unique($priorityLocale));
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLocale()
     {
@@ -64,7 +65,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * get priority locale
+     * get priority locale.
      *
      * @param string $locale
      *
@@ -83,11 +84,12 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * add priority locale list
+     * add priority locale list.
      *
      * @param PriorityLocale $priorityLocale
      *
      * @return $this
+     *
      * @throws InvalidLocaleException
      */
     public function addPriorityLocale(PriorityLocale $priorityLocale)
@@ -98,7 +100,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * create Priority Locale
+     * create Priority Locale.
      *
      * @param string $locale
      * @param array  $localeList
@@ -114,7 +116,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setLocale($locale)
     {
@@ -124,11 +126,12 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * asset valid locale
+     * asset valid locale.
      *
      * @param string $locale
      *
      * @return string
+     *
      * @throws InvalidLocaleException
      */
     public static function assertValidLocale($locale)

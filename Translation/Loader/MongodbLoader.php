@@ -37,7 +37,7 @@ class MongodbLoader implements LoaderInterface
     }
 
     /**
-     * get messages
+     * get messages.
      *
      * @param \MongoDB $resource
      * @param string   $locale

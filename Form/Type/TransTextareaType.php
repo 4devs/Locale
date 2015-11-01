@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TransTextareaType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -16,7 +16,7 @@ class TransTextareaType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -24,15 +24,15 @@ class TransTextareaType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
             ->setDefaults([
-                'options'      => ['type' => 'textarea'],
+                'options' => ['type' => 'textarea'],
                 'block_locale' => 'text_tabs',
-                'locale_type'  => 'fdevs_locale_text',
+                'locale_type' => 'fdevs_locale_text',
             ]);
     }
 }

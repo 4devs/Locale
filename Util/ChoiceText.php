@@ -11,7 +11,7 @@ class ChoiceText
     private static $defaultLocale;
 
     /**
-     * set Locale
+     * set Locale.
      *
      * @param string $locale
      *
@@ -36,7 +36,7 @@ class ChoiceText
     }
 
     /**
-     * get Text By Priority Locale
+     * get Text By Priority Locale.
      *
      * @param array|Collection $data
      * @param array            $localeList
@@ -52,7 +52,7 @@ class ChoiceText
     }
 
     /**
-     * get Text By Collection
+     * get Text By Collection.
      *
      * @param Collection $data
      * @param string     $locale
@@ -68,7 +68,7 @@ class ChoiceText
     }
 
     /**
-     * get First Text
+     * get First Text.
      *
      * @param Collection|array $data
      *
@@ -82,7 +82,7 @@ class ChoiceText
     }
 
     /**
-     * get Text By Array
+     * get Text By Array.
      *
      * @param array  $data
      * @param string $locale
@@ -97,7 +97,7 @@ class ChoiceText
     }
 
     /**
-     * get Locale
+     * get Locale.
      *
      * @param string $locale
      *
@@ -109,7 +109,7 @@ class ChoiceText
     }
 
     /**
-     * prepare result
+     * prepare result.
      *
      * @param LocaleTextInterface|null $result
      *

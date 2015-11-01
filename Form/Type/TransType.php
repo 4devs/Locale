@@ -17,7 +17,7 @@ class TransType extends AbstractType
     private $locales = ['en'];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -25,7 +25,7 @@ class TransType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -33,7 +33,7 @@ class TransType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -41,7 +41,7 @@ class TransType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -49,10 +49,10 @@ class TransType extends AbstractType
             ->setRequired(['locale_type'])
             ->setDefaults(
                 [
-                    'locale_type'  => 'fdevs_locale',
-                    'options'      => [],
+                    'locale_type' => 'fdevs_locale',
+                    'options' => [],
                     'block_locale' => 'inline',
-                    'locales'      => $this->locales,
+                    'locales' => $this->locales,
                 ]
             )
             ->setDefined(['locales', 'options', 'block_locale'])
@@ -66,7 +66,7 @@ class TransType extends AbstractType
     }
 
     /**
-     * set Locales
+     * set Locales.
      *
      * @param array $locales
      *
