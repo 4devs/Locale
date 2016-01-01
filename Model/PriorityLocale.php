@@ -13,6 +13,18 @@ class PriorityLocale
     private $localeList = [];
 
     /**
+     * PriorityLocale constructor.
+     *
+     * @param string $locale
+     * @param array  $localeList
+     */
+    public function __construct($locale = 'en', array $localeList = [])
+    {
+        $this->setLocale($locale);
+        $this->setLocaleList($localeList);
+    }
+
+    /**
      * get locale.
      *
      * @return string

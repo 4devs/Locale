@@ -106,13 +106,13 @@ class Translator implements TranslatorInterface
      * @param array  $localeList
      *
      * @return PriorityLocale
+     * @deprecated use PriorityLocale::__construct
      */
     public function createPriorityLocale($locale, array $localeList)
     {
-        $priorityLocale = new PriorityLocale();
-        $priorityLocale->setLocale($locale)->setLocaleList($localeList);
+        @trigger_error('Translator::createPriorityLocale() is deprecated since version 2.3 and will be removed in 3.0.', E_USER_DEPRECATED);
 
-        return $priorityLocale;
+        return new PriorityLocale($locale, $localeList);
     }
 
     /**

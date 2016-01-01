@@ -105,6 +105,34 @@ class TranslatorTest extends AbstractTest
     }
 
     /**
+     * test get priority Locale
+     */
+    public function testGetPriorityLocale()
+    {
+        $trans = $this->createTranslation();
+        $locale = $trans->getPriorityLocale();
+        $this->assertInternalType('array', $locale);
+        $this->assertCount(1, $locale);
+    }
+
+    /**
+     * test add priority Locale
+     */
+    public function testAddPriorityLocale()
+    {
+        $trans = $this->createTranslation();
+        $priorityLocale = $this->createPriorityLocaleMock('uk', ['ru']);
+        $trans->addPriorityLocale($priorityLocale);
+        $locale = $trans->getPriorityLocale('uk');
+        $this->assertCount(2, $locale);
+
+        $priorityLocale = $this->createPriorityLocaleMock('ru', ['en', 'uk']);
+        $trans->addPriorityLocale($priorityLocale);
+        $locale = $trans->getPriorityLocale('ru');
+        $this->assertCount(3, $locale);
+    }
+
+    /**
      * @param mixed  $model
      * @param string $locale
      */
