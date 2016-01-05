@@ -8,38 +8,6 @@ use FDevs\Locale\LocaleInterface;
 class ChoiceLocale
 {
     /**
-     * get locale by array.
-     *
-     * @param array|LocaleInterface[] $data
-     * @param string                  $locale
-     *
-     * @return LocaleInterface|null
-     */
-    public static function getByArray(array $data, $locale)
-    {
-        $locale = array_filter($data, function (LocaleInterface $var) use ($locale) {
-            return $var->isLocale($locale);
-        });
-
-        return self::getFirst($locale);
-    }
-
-    /**
-     * @param Collection|LocaleInterface[] $data
-     * @param string                       $locale
-     *
-     * @return LocaleInterface|null
-     */
-    public static function getByCollection(Collection $data, $locale)
-    {
-        $locale = $data->filter(function (LocaleInterface $var) use ($locale) {
-            return $var->isLocale($locale);
-        });
-
-        return self::getFirst($locale);
-    }
-
-    /**
      * get by priority.
      *
      * @param array|Collection|LocaleInterface[] $data
@@ -100,7 +68,7 @@ class ChoiceLocale
      *
      * @return LocaleInterface|null
      */
-    public static function getFirst($data)
+    private static function getFirst($data)
     {
         $locale = null;
         if ($data instanceof Collection && $data->count()) {
@@ -110,5 +78,37 @@ class ChoiceLocale
         }
 
         return $locale;
+    }
+
+    /**
+     * get locale by array.
+     *
+     * @param array|LocaleInterface[] $data
+     * @param string                  $locale
+     *
+     * @return LocaleInterface|null
+     */
+    private static function getByArray(array $data, $locale)
+    {
+        $locale = array_filter($data, function (LocaleInterface $var) use ($locale) {
+            return $var->isLocale($locale);
+        });
+
+        return self::getFirst($locale);
+    }
+
+    /**
+     * @param Collection|LocaleInterface[] $data
+     * @param string                       $locale
+     *
+     * @return LocaleInterface|null
+     */
+    private static function getByCollection(Collection $data, $locale)
+    {
+        $locale = $data->filter(function (LocaleInterface $var) use ($locale) {
+            return $var->isLocale($locale);
+        });
+
+        return self::getFirst($locale);
     }
 }

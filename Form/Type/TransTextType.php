@@ -10,17 +10,9 @@ class TransTextType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
-        return 'trans_text';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getParent()
     {
-        return 'trans';
+        return TransType::class;
     }
 
     /**
@@ -28,6 +20,6 @@ class TransTextType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['locale_type' => 'fdevs_locale_text']);
+        $resolver->setDefaults(['locale_type' => LocaleTextType::class]);
     }
 }

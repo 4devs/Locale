@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Intl\Intl;
+use FDevs\Locale\Form\Type\HiddenLocaleType;
 
 class TranslatableFormSubscriber implements EventSubscriberInterface
 {
@@ -27,7 +28,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
      * @param array  $locations
      * @param string $localeFormType
      */
-    public function __construct($localeFormType = 'fdevs_locale', array $options = [], array $locations = [])
+    public function __construct($localeFormType = HiddenLocaleType::class, array $options = [], array $locations = [])
     {
         $this->options = $options;
         $this->localeFormType = $localeFormType;

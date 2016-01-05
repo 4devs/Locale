@@ -14,14 +14,16 @@ class TransType extends AbstractType
     /**
      * @var array
      */
-    private $locales = ['en'];
+    private $locales;
 
     /**
-     * {@inheritdoc}
+     * TransType constructor.
+     *
+     * @param array $locales
      */
-    public function getName()
+    public function __construct(array $locales = ['en'])
     {
-        return 'trans';
+        $this->setLocales($locales);
     }
 
     /**
@@ -49,7 +51,7 @@ class TransType extends AbstractType
             ->setRequired(['locale_type'])
             ->setDefaults(
                 [
-                    'locale_type' => 'fdevs_locale',
+                    'locale_type' => HiddenLocaleType::class,
                     'options' => [],
                     'block_locale' => 'inline',
                     'locales' => $this->locales,
@@ -62,7 +64,8 @@ class TransType extends AbstractType
             ->addAllowedTypes('block_locale', ['string'])
             ->setNormalizer('block_locale', function ($options, $value) {
                 return 'fdevs_locale_'.$value;
-            });
+            })
+        ;
     }
 
     /**

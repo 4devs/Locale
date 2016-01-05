@@ -4,8 +4,8 @@ namespace FDevs\Locale\Twig;
 
 use Doctrine\Common\Collections\Collection;
 use FDevs\Locale\Model\LocaleText;
-use FDevs\Locale\Translator;
 use FDevs\Locale\TranslatorInterface;
+use FDevs\Locale\LocaleInterface;
 
 class TranslatorExtension extends \Twig_Extension
 {
@@ -21,10 +21,10 @@ class TranslatorExtension extends \Twig_Extension
     /**
      * init.
      *
-     * @param array               $twigExtensions
      * @param TranslatorInterface $translator
+     * @param array               $twigExtensions
      */
-    public function __construct(array $twigExtensions = [], TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, array $twigExtensions = [])
     {
         $this->twigExtensions = $twigExtensions;
         $this->translator = $translator;
@@ -42,12 +42,22 @@ class TranslatorExtension extends \Twig_Extension
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'translator_extension';
+    }
+
+    /**
      * translate Collection.
      *
-     * @param |FDevs\Locale\Model\LocaleText[]|string $data
-     * @param string                                  $locale
+     * @param \Twig_Environment                    $env
+     * @param LocaleText[]|array|Collection|string $data
+     * @param string                               $locale
      *
      * @return string
+     * @throws \Exception
      */
     public function trans(\Twig_Environment $env, $data, $locale = '')
     {
@@ -63,10 +73,10 @@ class TranslatorExtension extends \Twig_Extension
     }
 
     /**
-     * @param \FDevs\Locale\LocaleInterface|string $data
-     * @param string                               $locale
+     * @param LocaleInterface[]|Collection|array $data
+     * @param string                             $locale
      *
-     * @return \FDevs\Locale\LocaleInterface|null
+     * @return LocaleInterface|null
      */
     public function translationCollection($data, $locale = '')
     {
@@ -75,14 +85,6 @@ class TranslatorExtension extends \Twig_Extension
         }
 
         return $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'translator_extension';
     }
 
     /**

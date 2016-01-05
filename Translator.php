@@ -3,9 +3,8 @@
 namespace FDevs\Locale;
 
 use FDevs\Locale\Exception\InvalidLocaleException;
-use Doctrine\Common\Collections\Collection;
-use FDevs\Locale\Model\PriorityLocale;
 use FDevs\Locale\Util\ChoiceLocale;
+use FDevs\Locale\Util\LocaleValidate;
 
 class Translator implements TranslatorInterface
 {
@@ -15,21 +14,14 @@ class Translator implements TranslatorInterface
     /** @var string */
     private $defaultLocale;
 
-    /** @var array|Collection|PriorityLocale[] */
-    private $priorityLocaleList = [];
-
     /**
      * init.
      *
-     * @param string                 $defaultLocale
-     * @param array|PriorityLocale[] $priorityLocale
+     * @param string $defaultLocale
      */
-    public function __construct($defaultLocale = 'en', $priorityLocale = [])
+    public function __construct($defaultLocale = 'en')
     {
         $this->defaultLocale = self::assertValidLocale($defaultLocale);
-        foreach ($priorityLocale as $locale) {
-            $this->addPriorityLocale($locale);
-        }
     }
 
     /**
@@ -45,74 +37,9 @@ class Translator implements TranslatorInterface
     /**
      * {@inheritdoc}
      */
-    public function transChoice($data, $locale = '', array $priorityLocale = [])
-    {
-        $locale = $locale ? $this->assertValidLocale($locale) : '';
-        $priorityLocale = count($priorityLocale) ? $this->assertValidPriorityLocale($priorityLocale) : $this->getPriorityLocale($locale);
-        if ($locale) {
-            array_unshift($priorityLocale, $locale);
-        }
-
-        return ChoiceLocale::getByPriority($data, array_unique($priorityLocale));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getLocale()
     {
         return $this->locale ?: $this->defaultLocale;
-    }
-
-    /**
-     * get priority locale.
-     *
-     * @param string $locale
-     *
-     * @return array
-     */
-    public function getPriorityLocale($locale = '')
-    {
-        $locale = $locale ?: $this->getLocale();
-        $localeList = [];
-        if (isset($this->priorityLocaleList[$locale])) {
-            $localeList = $this->priorityLocaleList[$locale]->getLocaleList();
-        }
-        array_unshift($localeList, $locale);
-
-        return $localeList;
-    }
-
-    /**
-     * add priority locale list.
-     *
-     * @param PriorityLocale $priorityLocale
-     *
-     * @return $this
-     *
-     * @throws InvalidLocaleException
-     */
-    public function addPriorityLocale(PriorityLocale $priorityLocale)
-    {
-        $this->priorityLocaleList[$priorityLocale->getLocale()] = $priorityLocale;
-
-        return $this;
-    }
-
-    /**
-     * create Priority Locale.
-     *
-     * @param string $locale
-     * @param array  $localeList
-     *
-     * @return PriorityLocale
-     * @deprecated use PriorityLocale::__construct
-     */
-    public function createPriorityLocale($locale, array $localeList)
-    {
-        @trigger_error('Translator::createPriorityLocale() is deprecated since version 2.3 and will be removed in 3.0.', E_USER_DEPRECATED);
-
-        return new PriorityLocale($locale, $localeList);
     }
 
     /**
@@ -120,44 +47,20 @@ class Translator implements TranslatorInterface
      */
     public function setLocale($locale)
     {
-        $this->locale = self::assertValidLocale($locale);
+        $this->locale = $this->assertValidLocale($locale);
 
         return $this;
     }
 
     /**
-     * asset valid locale.
-     *
      * @param string $locale
      *
      * @return string
      *
      * @throws InvalidLocaleException
      */
-    public static function assertValidLocale($locale)
+    private function assertValidLocale($locale)
     {
-        if (1 !== preg_match('/^[a-z0-9@_\\.\\-]*$/i', $locale)) {
-            throw new InvalidLocaleException(sprintf('Invalid "%s" locale.', $locale));
-        }
-
-        return $locale;
-    }
-
-    /**
-     * Asserts that the locale list is valid, throws an Exception if not.
-     *
-     * @param array $localeList Locale to tests
-     *
-     * @throws InvalidLocaleException If the locale contains invalid characters
-     *
-     * @return array
-     */
-    private function assertValidPriorityLocale(array $localeList)
-    {
-        foreach ($localeList as $locale) {
-            $this->assertValidLocale($locale);
-        }
-
-        return $localeList;
+        return LocaleValidate::assertValidLocale($locale);
     }
 }
