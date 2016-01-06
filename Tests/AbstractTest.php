@@ -9,17 +9,6 @@ use FDevs\Locale\Model\PriorityLocale;
 abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $defaultLocale
-     * @param array  $priorityLocale
-     *
-     * @return Translator
-     */
-    protected function createTranslation($defaultLocale = 'en', array $priorityLocale = [])
-    {
-        return new Translator($defaultLocale, $priorityLocale);
-    }
-
-    /**
      * @param string $locale
      *
      * @return LocaleInterface

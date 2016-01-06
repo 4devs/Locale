@@ -4,23 +4,16 @@ namespace FDevs\Locale\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class TransTextareaType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
-        return 'trans_textarea';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getParent()
     {
-        return 'trans';
+        return TransType::class;
     }
 
     /**
@@ -30,9 +23,9 @@ class TransTextareaType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'options' => ['type' => 'textarea'],
+                'options' => ['type' => TextareaType::class],
                 'block_locale' => 'text_tabs',
-                'locale_type' => 'fdevs_locale_text',
+                'locale_type' => LocaleTextType::class,
             ]);
     }
 }

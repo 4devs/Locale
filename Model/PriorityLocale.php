@@ -2,7 +2,7 @@
 
 namespace FDevs\Locale\Model;
 
-use FDevs\Locale\Translator;
+use FDevs\Locale\Util\LocaleValidate;
 
 class PriorityLocale
 {
@@ -43,7 +43,7 @@ class PriorityLocale
      */
     public function setLocale($locale)
     {
-        $this->locale = Translator::assertValidLocale($locale);
+        $this->locale = LocaleValidate::assertValidLocale($locale);
 
         return $this;
     }
@@ -69,7 +69,7 @@ class PriorityLocale
     {
         $this->localeList = [];
         foreach ($localeList as $locale) {
-            $this->localeList[] = Translator::assertValidLocale($locale);
+            $this->localeList[] = LocaleValidate::assertValidLocale($locale);
         }
 
         return $this;

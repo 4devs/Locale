@@ -20,19 +20,6 @@ interface TranslatorInterface
     public function trans($data, $locale = '');
 
     /**
-     * Translates the given Locale Data by choosing a translation according priority Locale.
-     *
-     * @param array|Collection $data
-     * @param string           $locale
-     * @param array            $priorityLocale
-     *
-     * @throws InvalidLocaleException If the locale contains invalid characters
-     *
-     * @return LocaleInterface|null
-     */
-    public function transChoice($data, $locale = '', array $priorityLocale = []);
-
-    /**
      * set current locale.
      *
      * @param string $locale

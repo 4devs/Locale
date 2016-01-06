@@ -12,20 +12,10 @@ Installation and usage is a quick:
 
 ### Step 1: Download Locale library using composer
 
-Add Locale library in your composer.json:
-
-```json
-{
-    "require": {
-        "fdevs/locale": "*"
-    }
-}
-```
-
-Now tell composer to download the bundle by running the command:
+Download the bundle by running the command:
 
 ``` bash
-$ php composer.phar update fdevs/locale
+$ php composer.phar require fdevs/locale
 ```
 
 Composer will install the bundle to your project's `vendor/fdevs` directory.
@@ -41,7 +31,7 @@ Composer will install the bundle to your project's `vendor/fdevs` directory.
 require DIR . '/../vendor/autoload.php';
 
 use FDevs\Locale\Model\LocaleText;
-use FDevs\Locale\Util\ChoiceText;
+use FDevs\Locale\Translator;
 
 // The same text in different languages
 $englishText = new LocaleText('I am a programmer', 'en');
@@ -54,37 +44,51 @@ $supportedTexts = [
     $chineseText,
 ];
 
-$choice = new ChoiceText();
+$trans = new Translator();
 ```
 
-####Set default locale:
+####Set current locale:
 ```php
-$choice->setDefaultLocale('zh');
+$trans->setLocale('zh');
 ```
 
 ####Get text for current locale:
 ```php
 // 1. Get text for current locale - ch (Chinese)
-echo $choice->getText($supportedTexts);
+$text = $trans->trans($supportedTexts);
+echo $text?$text->getText():'';
 // Output: "我是程序员"
 ```
 
-####Get text for non default locale - ru:
+####Get text for locale - ru:
 ```php
-echo $choice->getText($supportedTexts, 'ru');
+$text = $trans->trans($supportedTexts, 'ru');
+echo $text?$text->getText():'';
 // Output: "Я программист"
 ```
 
 ####Get text for a locale for which we don't have translation:
 ```php
-echo $choice->getText($supportedTexts, 'kk');
+$text = $trans->trans($supportedTexts, 'kk');
+echo $text?$text->getText():'';
 // Output: ""
 ```
 
 ####Get text using a set of prioritized locales:
 Here you can treat this as locales fallback, first found locale from your list will be chosen.
 ```php
-echo $choice->getTextByPriority($supportedTexts, ['en', 'zh', 'ru']);
+use FDevs\Locale\Model\PriorityLocale;
+use FDevs\Locale\TranslatorPriority;
+
+$priorityLocale = [
+    new PriorityLocale('uk',['en','ru']),
+    new PriorityLocale('en',['uk']),
+    new PriorityLocale('fa',['zh','en']),
+];
+
+$trans = new TranslatorPriority('en',$priorityLocale);
+$text = $trans->trans($supportedTexts, 'uk');
+echo $text?$text->getText():'';
 // Output: "I am programmer"
 ```
 
