@@ -51,14 +51,7 @@ class ChoiceLocale
      */
     public static function get($data, $locale)
     {
-        $result = null;
-        if ($data instanceof Collection) {
-            $result = self::getByCollection($data, $locale);
-        } elseif (is_array($data)) {
-            $result = self::getByArray($data, $locale);
-        }
-
-        return $result;
+        return self::getByPriority($data, [$locale]);
     }
 
     /**
