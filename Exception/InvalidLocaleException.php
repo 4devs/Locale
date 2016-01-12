@@ -11,5 +11,4 @@ class InvalidLocaleException extends Exception
     {
         parent::__construct(sprintf('Invalid "%s" locale.', $locale), $code, $previous);
     }
-
 }

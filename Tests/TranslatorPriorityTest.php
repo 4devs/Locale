@@ -85,6 +85,4 @@ class TranslatorPriorityTest extends AbstractTranslatorTest
 
         return new TranslatorPriority('en', $priorityLocale);
     }
-
-
 }
