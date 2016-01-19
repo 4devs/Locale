@@ -38,10 +38,9 @@ class TranslatorPriority implements TranslatorInterface
     public function trans($data, $locale = '')
     {
         $locale = $locale ? $this->assertValidLocale($locale) : $this->getLocale();
-        if ($locale && isset($this->priorityLocaleList[$locale])) {
-            $priorityLocale = array_merge([$locale], $this->priorityLocaleList[$locale]);
-        } else {
-            $priorityLocale[] = $locale;
+        $priorityLocale = [$locale];
+        if (isset($this->priorityLocaleList[$locale])) {
+            $priorityLocale = array_merge($priorityLocale, $this->priorityLocaleList[$locale]);
         }
 
         return ChoiceLocale::getByPriority($data, array_unique($priorityLocale));
