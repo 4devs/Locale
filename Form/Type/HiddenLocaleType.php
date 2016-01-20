@@ -2,12 +2,11 @@
 
 namespace FDevs\Locale\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class HiddenLocaleType extends AbstractType
+class HiddenLocaleType extends AbstractLocaleType
 {
     /**
      * {@inheritdoc}
@@ -22,22 +21,7 @@ class HiddenLocaleType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setRequired(['lang_code'])
-            ->setDefaults([
-                'compound' => true,
-                'options' => [
-                    'label' => false,
-                    'data_class' => null,
-                    'compound' => false,
-                    'required' => true,
-                    'mapped' => true,
-                    'by_reference' => true,
-                    'trim' => true,
-                ],
-            ])
-            ->addAllowedTypes('lang_code', ['string'])
-            ->addAllowedTypes('options', ['array'])
-        ;
+        parent::configureOptions($resolver);
+        $resolver->addAllowedTypes('lang_code', ['string']);
     }
 }

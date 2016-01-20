@@ -3,7 +3,6 @@
 namespace FDevs\Locale\Tests;
 
 use FDevs\Locale\LocaleInterface;
-use FDevs\Locale\Translator;
 use FDevs\Locale\Model\PriorityLocale;
 
 abstract class AbstractTest extends \PHPUnit_Framework_TestCase
