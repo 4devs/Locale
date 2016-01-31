@@ -3,7 +3,9 @@
 namespace FDevs\Locale;
 
 use FDevs\Locale\Exception\InvalidLocaleException;
-use FDevs\Locale\Util\ChoiceLocale;
+use FDevs\Locale\DataProvider\ArrayLocaleProvider;
+use FDevs\Locale\DataProvider\DataProviderRegistry;
+use FDevs\Locale\DataProvider\CollectionLocaleProvider;
 use FDevs\Locale\Util\LocaleValidate;
 
 class Translator implements TranslatorInterface
@@ -14,14 +16,23 @@ class Translator implements TranslatorInterface
     /** @var string */
     private $defaultLocale;
 
+    /** @var DataProviderRegistry */
+    protected $registry;
+
     /**
-     * init.
+     * Translator constructor.
      *
-     * @param string $defaultLocale
+     * @param string              $defaultLocale
+     * @param DataProviderRegistry|null $registry
      */
-    public function __construct($defaultLocale = 'en')
+    public function __construct($defaultLocale = 'en', DataProviderRegistry $registry = null)
     {
-        $this->defaultLocale = self::assertValidLocale($defaultLocale);
+        $this->defaultLocale = $this->assertValidLocale($defaultLocale);
+        if (!$registry) {
+            $this->registry = new DataProviderRegistry([new ArrayLocaleProvider(), new CollectionLocaleProvider()]);
+        } else {
+            $this->registry = $registry;
+        }
     }
 
     /**
@@ -31,7 +42,7 @@ class Translator implements TranslatorInterface
     {
         $locale = $locale ? $this->assertValidLocale($locale) : $this->getLocale();
 
-        return ChoiceLocale::get($data, $locale);
+        return $this->registry->find($data, [$locale]);
     }
 
     /**
@@ -59,7 +70,7 @@ class Translator implements TranslatorInterface
      *
      * @throws InvalidLocaleException
      */
-    private function assertValidLocale($locale)
+    protected function assertValidLocale($locale)
     {
         return LocaleValidate::assertValidLocale($locale);
     }

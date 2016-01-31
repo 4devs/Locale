@@ -3,18 +3,11 @@
 namespace FDevs\Locale;
 
 use Doctrine\Common\Collections\Collection;
-use FDevs\Locale\Util\ChoiceLocale;
-use FDevs\Locale\Util\LocaleValidate;
+use FDevs\Locale\DataProvider\DataProviderRegistry;
 use FDevs\Locale\Model\PriorityLocale;
 
-class TranslatorPriority implements TranslatorInterface
+class TranslatorPriority extends Translator implements TranslatorInterface
 {
-    /** @var string */
-    private $locale;
-
-    /** @var string */
-    private $defaultLocale;
-
     /** @var array|PriorityLocale[] */
     private $priorityLocaleList = [];
 
@@ -24,9 +17,9 @@ class TranslatorPriority implements TranslatorInterface
      * @param string                            $defaultLocale
      * @param array|Collection|PriorityLocale[] $priorityLocale
      */
-    public function __construct($defaultLocale = 'en', array $priorityLocale = [])
+    public function __construct($defaultLocale = 'en', array $priorityLocale = [], DataProviderRegistry $registry = null)
     {
-        $this->defaultLocale = $this->assertValidLocale($defaultLocale);
+        parent::__construct($defaultLocale, $registry);
         foreach ($priorityLocale as $locale) {
             $this->addPriorityLocale($locale);
         }
@@ -43,25 +36,7 @@ class TranslatorPriority implements TranslatorInterface
             $priorityLocale = array_merge($priorityLocale, $this->priorityLocaleList[$locale]);
         }
 
-        return ChoiceLocale::getByPriority($data, array_unique($priorityLocale));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $this->assertValidLocale($locale);
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLocale()
-    {
-        return $this->locale ?: $this->defaultLocale;
+        return $this->registry->find($data, $priorityLocale);
     }
 
     /**
@@ -74,17 +49,5 @@ class TranslatorPriority implements TranslatorInterface
         $this->priorityLocaleList[$locale->getLocale()] = $locale->getLocaleList();
 
         return $this;
-    }
-
-    /**
-     * @param string $locale
-     *
-     * @return string
-     *
-     * @throws Exception\InvalidLocaleException
-     */
-    private function assertValidLocale($locale)
-    {
-        return LocaleValidate::assertValidLocale($locale);
     }
 }
