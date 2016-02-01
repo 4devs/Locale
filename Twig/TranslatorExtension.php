@@ -60,6 +60,7 @@ class TranslatorExtension extends \Twig_Extension
      * @return string
      *
      * @throws \Exception
+     *
      * @deprecated use transText
      */
     public function trans(\Twig_Environment $env, $data, $locale = '')
@@ -73,6 +74,7 @@ class TranslatorExtension extends \Twig_Extension
      * @param string                                    $locale
      *
      * @return string
+     *
      * @throws \Exception
      */
     public function transText(\Twig_Environment $env, $data, $locale = '')
