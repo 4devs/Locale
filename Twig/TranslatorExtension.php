@@ -36,7 +36,8 @@ class TranslatorExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('t', [$this, 'trans'], ['is_safe' => ['html'], 'needs_environment' => true]),
+            new \Twig_SimpleFilter('t', [$this, 'trans'], ['is_safe' => ['html'], 'needs_environment' => true, 'deprecated' => true]),
+            new \Twig_SimpleFilter('tt', [$this, 'transText'], ['is_safe' => ['html'], 'needs_environment' => true]),
             new \Twig_SimpleFilter('tc', [$this, 'translationCollection'], ['is_safe' => ['html']]),
         ];
     }
@@ -59,14 +60,35 @@ class TranslatorExtension extends \Twig_Extension
      * @return string
      *
      * @throws \Exception
+     *
+     * @deprecated use transText
      */
     public function trans(\Twig_Environment $env, $data, $locale = '')
+    {
+        return $this->transText($env, $data, $locale);
+    }
+
+    /**
+     * @param \Twig_Environment                         $env
+     * @param LocaleInterface[]|array|Collection|string $data
+     * @param string                                    $locale
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function transText(\Twig_Environment $env, $data, $locale = '')
     {
         if ($data instanceof Collection || is_array($data)) {
             $text = $this->translator->trans($data, $locale);
             $data = '';
-            if ($text instanceof LocaleText && $text->getText()) {
-                $data = $this->createTemplate($text->getText(), $env)->render([]);
+            if ($text && method_exists($text, '__toString')) {
+                $data = strval($text);
+            } elseif (isset($text['text'])) {
+                $data = $text['text'];
+            }
+            if ($data) {
+                $data = $this->createTemplate($data, $env)->render([]);
             }
         }
 
@@ -81,11 +103,12 @@ class TranslatorExtension extends \Twig_Extension
      */
     public function translationCollection($data, $locale = '')
     {
+        $trans = null;
         if ($data instanceof Collection || is_array($data)) {
-            $data = $this->translator->trans($data, $locale);
+            $trans = $this->translator->trans($data, $locale);
         }
 
-        return $data;
+        return $trans;
     }
 
     /**

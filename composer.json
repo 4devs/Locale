@@ -38,6 +38,11 @@
         "twig/twig": "use with twig"
     },
     "autoload": {
-        "psr-4": {"FDevs\\Locale\\": ""}
+        "psr-4": {
+            "FDevs\\Locale\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     }
 }

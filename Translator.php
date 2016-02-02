@@ -22,7 +22,7 @@ class Translator implements TranslatorInterface
     /**
      * Translator constructor.
      *
-     * @param string              $defaultLocale
+     * @param string                    $defaultLocale
      * @param DataProviderRegistry|null $registry
      */
     public function __construct($defaultLocale = 'en', DataProviderRegistry $registry = null)
