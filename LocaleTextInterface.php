@@ -10,4 +10,11 @@ interface LocaleTextInterface extends LocaleInterface
      * @return string
      */
     public function getText();
+
+    /**
+     * get Text.
+     *
+     * @return string
+     */
+    public function __toString();
 }
