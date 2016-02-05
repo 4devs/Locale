@@ -4,23 +4,9 @@ namespace FDevs\Locale\Tests;
 
 use FDevs\Locale\LocaleInterface;
 use FDevs\Locale\Model\PriorityLocale;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @param string $class
-     * @param array  $data
-     *
-     * @return object
-     */
-    public static function fromArray($class, array $data)
-    {
-        $normalizer = new ObjectNormalizer();
-
-        return $normalizer->denormalize($data, $class);
-    }
-
     /**
      * @param string $locale
      *

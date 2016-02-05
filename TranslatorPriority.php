@@ -14,12 +14,12 @@ class TranslatorPriority extends Translator implements TranslatorInterface
     /**
      * TranslatorPriority constructor.
      *
-     * @param string                            $defaultLocale
+     * @param string                            $default
      * @param array|Collection|PriorityLocale[] $priorityLocale
      */
-    public function __construct($defaultLocale = 'en', array $priorityLocale = [], DataProviderRegistry $registry = null)
+    public function __construct($default = 'en', array $priorityLocale = [], DataProviderRegistry $registry = null)
     {
-        parent::__construct($defaultLocale, $registry);
+        parent::__construct($default, $registry);
         foreach ($priorityLocale as $locale) {
             $this->addPriorityLocale($locale);
         }
