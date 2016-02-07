@@ -13,7 +13,9 @@ Installation and usage is a quick:
 
 1. Download Locale using composer
 2. Use the library
-3. Use Mongodb with Symfony [Translation](https://github.com/symfony/Translation)
+3. Customize Data Provider
+
+You can "[fdevs/locale-bridge](https://packagist.org/packages/fdevs/locale-bridge)" for use with other libraries/components
 
 
 ### Step 1: Download Locale library using composer
@@ -98,6 +100,34 @@ echo $text?$text->getText():'';
 // Output: "I am programmer"
 ```
 
+
+### Step 3: Customize Data Provider
+
+#### create your awesome provider
+
+```php
+use FDevs\Locale\DataProvider\DataProviderInterface;
+
+class MyProvider implements DataProviderInterface
+{
+//implement interface
+}
+```
+
+#### add your provider
+
+```php
+use FDevs\Locale\DataProvider\DataProviderRegistry;
+use FDevs\Locale\Translator;
+use FDevs\Locale\TranslatorPriority;
+
+$registry = new DataProviderRegistry([new MyProvider()]);
+$translator = new Translator('en',$registry);
+//or
+$translator = new TranslatorPriority('en', $priorityLocale, $registry);
+
+```
+
 License
 -------
 
@@ -108,4 +138,4 @@ This library is under the MIT license. See the complete license in the Library:
 Reporting an issue or a feature request
 ---------------------------------------
 
-Issues and feature requests are tracked in the [Github issue tracker](https://github.com/4devs/Locale/issues).
+Issues and feature requests are tracked in the [Github issue tracker](https://github.com/4devs/locale/issues).
