@@ -1,6 +1,6 @@
 Locale Library
 ==============
-[![Build Status](https://secure.travis-ci.org/4devs/Locale.png?branch=master)](http://travis-ci.org/4devs/Locale)
+[![Build Status](https://secure.travis-ci.org/4devs/locale.png?branch=master)](http://travis-ci.org/4devs/locale)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/7d6a1244-eb29-4d8a-8819-ffb7c8d71f4a/mini.png)](https://insight.sensiolabs.com/projects/7d6a1244-eb29-4d8a-8819-ffb7c8d71f4a)
 
