@@ -20,7 +20,7 @@ class LocaleType extends AbstractType
             $intlBundle = Intl::getLanguageBundle();
             $localeChoices = [];
             foreach ($options['lang_code'] as $code) {
-                $localeChoices[$code] = $intlBundle->getLanguageName($code);
+                $localeChoices[$intlBundle->getLanguageName($code)] = $code;
             }
             $builder->add('locale', ChoiceType::class, ['choices' => $localeChoices]);
         } else {
