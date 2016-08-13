@@ -2,6 +2,7 @@
 
 namespace FDevs\Locale\Form\EventListener;
 
+use FDevs\Locale\Form\Type\LocaleType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormEvent;
@@ -27,7 +28,7 @@ class TranslatableFormSubscriber implements EventSubscriberInterface
      * @param array  $locations
      * @param string $localeFormType
      */
-    public function __construct($localeFormType = 'fdevs_locale', array $options = [], array $locations = [])
+    public function __construct($localeFormType = LocaleType::class, array $options = [], array $locations = [])
     {
         $this->options = $options;
         $this->localeFormType = $localeFormType;

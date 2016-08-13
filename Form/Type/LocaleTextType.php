@@ -2,6 +2,7 @@
 namespace FDevs\Locale\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,7 +24,8 @@ class LocaleTextType extends AbstractType
         $resolver
             ->setDefined(['type'])
             ->addAllowedTypes('type', ['string', '\Symfony\Component\Form\FormTypeInterface'])
-            ->setDefaults(['data_class' => 'FDevs\Locale\Model\LocaleText', 'type' => 'text']);
+            ->setDefaults(['data_class' => 'FDevs\Locale\Model\LocaleText', 'type' => TextType::class])
+        ;
     }
 
     /**
@@ -31,13 +33,13 @@ class LocaleTextType extends AbstractType
      */
     public function getParent()
     {
-        return 'fdevs_locale';
+        return LocaleType::class;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'fdevs_locale_text';
     }

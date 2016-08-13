@@ -3,6 +3,8 @@
 namespace FDevs\Locale\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Intl\Intl;
@@ -20,9 +22,9 @@ class LocaleType extends AbstractType
             foreach ($options['lang_code'] as $code) {
                 $localeChoices[$code] = $intlBundle->getLanguageName($code);
             }
-            $builder->add('locale', 'choice', ['choices' => $localeChoices]);
+            $builder->add('locale', ChoiceType::class, ['choices' => $localeChoices]);
         } else {
-            $builder->add('locale', 'hidden', ['data' => $options['lang_code'], 'empty_data' => $options['lang_code']]);
+            $builder->add('locale', HiddenType::class, ['data' => $options['lang_code'], 'empty_data' => $options['lang_code']]);
         }
     }
 
@@ -55,7 +57,7 @@ class LocaleType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'fdevs_locale';
     }

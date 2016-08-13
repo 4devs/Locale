@@ -19,7 +19,7 @@ class TransType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'trans';
     }

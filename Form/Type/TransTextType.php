@@ -10,7 +10,7 @@ class TransTextType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'trans_text';
     }
@@ -20,7 +20,7 @@ class TransTextType extends AbstractType
      */
     public function getParent()
     {
-        return 'trans';
+        return TransType::class;
     }
 
     /**
@@ -28,6 +28,6 @@ class TransTextType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['locale_type' => 'fdevs_locale_text']);
+        $resolver->setDefaults(['locale_type' => LocaleTextType::class]);
     }
 }
