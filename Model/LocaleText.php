@@ -19,7 +19,7 @@ class LocaleText implements LocaleTextInterface
     protected $text;
 
     /**
-     * init
+     * init.
      *
      * @param string $text
      * @param string $locale
@@ -31,7 +31,7 @@ class LocaleText implements LocaleTextInterface
     }
 
     /**
-     * to Array
+     * to Array.
      *
      * @return array
      */
@@ -41,7 +41,7 @@ class LocaleText implements LocaleTextInterface
     }
 
     /**
-     * from Array
+     * from Array.
      *
      * @param array $array
      *

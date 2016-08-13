@@ -1,4 +1,5 @@
 <?php
+
 namespace FDevs\Locale\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -9,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class LocaleTextType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -17,7 +18,7 @@ class LocaleTextType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -29,7 +30,7 @@ class LocaleTextType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -37,7 +38,7 @@ class LocaleTextType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

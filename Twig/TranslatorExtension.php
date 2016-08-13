@@ -19,7 +19,7 @@ class TranslatorExtension extends \Twig_Extension
     private $environment;
 
     /**
-     * init
+     * init.
      *
      * @param array               $twigExtensions
      * @param TranslatorInterface $translator
@@ -31,7 +31,7 @@ class TranslatorExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getFilters()
     {
@@ -42,7 +42,7 @@ class TranslatorExtension extends \Twig_Extension
     }
 
     /**
-     * translate Collection
+     * translate Collection.
      *
      * @param |FDevs\Locale\Model\LocaleText[]|string $data
      * @param string                                  $locale
@@ -78,7 +78,7 @@ class TranslatorExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -86,7 +86,7 @@ class TranslatorExtension extends \Twig_Extension
     }
 
     /**
-     * create template
+     * create template.
      *
      * @param string            $text
      * @param \Twig_Environment $env

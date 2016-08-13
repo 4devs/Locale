@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TransTextareaType extends AbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {
@@ -17,7 +17,7 @@ class TransTextareaType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -25,15 +25,15 @@ class TransTextareaType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
             ->setDefaults([
-                'options'      => ['type' => TextareaType::class],
+                'options' => ['type' => TextareaType::class],
                 'block_locale' => 'text_tabs',
-                'locale_type'  => LocaleTextType::class,
+                'locale_type' => LocaleTextType::class,
             ]);
     }
 }

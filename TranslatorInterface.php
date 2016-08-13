@@ -33,7 +33,7 @@ interface TranslatorInterface
     public function transChoice($data, $locale = '', array $priorityLocale = []);
 
     /**
-     * set current locale
+     * set current locale.
      *
      * @param string $locale
      *

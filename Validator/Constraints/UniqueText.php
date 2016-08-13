@@ -12,7 +12,7 @@ class UniqueText extends Constraint
     public $service = 'f_devs_locale.validator.unique_text';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function validatedBy()
     {

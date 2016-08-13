@@ -8,7 +8,7 @@ use FDevs\Locale\LocaleInterface;
 class ChoiceLocale
 {
     /**
-     * get locale by array
+     * get locale by array.
      *
      * @param array|LocaleInterface[] $data
      * @param string                  $locale
@@ -40,7 +40,7 @@ class ChoiceLocale
     }
 
     /**
-     * get by priority
+     * get by priority.
      *
      * @param array|Collection|LocaleInterface[] $data
      * @param array                              $localeList
@@ -74,7 +74,7 @@ class ChoiceLocale
     }
 
     /**
-     * get locale
+     * get locale.
      *
      * @param array|Collection|LocaleInterface[] $data
      * @param string                             $locale
@@ -94,7 +94,7 @@ class ChoiceLocale
     }
 
     /**
-     * get first
+     * get first.
      *
      * @param array|Collection|LocaleInterface[] $data
      *

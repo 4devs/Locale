@@ -13,7 +13,7 @@ class PriorityLocale
     private $localeList = [];
 
     /**
-     * get locale
+     * get locale.
      *
      * @return string
      */
@@ -23,7 +23,7 @@ class PriorityLocale
     }
 
     /**
-     * set locale
+     * set locale.
      *
      * @param string $locale
      *
@@ -37,7 +37,7 @@ class PriorityLocale
     }
 
     /**
-     * get locale list
+     * get locale list.
      *
      * @return array
      */
@@ -47,7 +47,7 @@ class PriorityLocale
     }
 
     /**
-     * set locale list
+     * set locale list.
      *
      * @param array $localeList
      *
