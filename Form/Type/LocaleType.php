@@ -42,8 +42,6 @@ class LocaleType extends AbstractType
                     'data_class' => null,
                     'compound' => false,
                     'required' => true,
-                    'read_only' => false,
-                    'max_length' => null,
                     'mapped' => true,
                     'by_reference' => true,
                     'trim' => true,
